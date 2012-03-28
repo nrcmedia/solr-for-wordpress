@@ -197,6 +197,7 @@ function s4w_build_document( $post_info, $domain = NULL, $path = NULL) {
         $doc->setField( 'author_s', get_author_posts_url($auth_info->ID, $auth_info->user_nicename));
         $doc->setField( 'type', $post_info->post_type );
         $doc->setField( 'date', s4w_format_date($post_info->post_date_gmt) );
+        $doc->setField( 'tdate', s4w_format_date($post_info->post_date_gmt) );
         $doc->setField( 'modified', s4w_format_date($post_info->post_modified_gmt) );
         $doc->setField( 'displaydate', $post_info->post_date );
         $doc->setField( 'displaymodified', $post_info->post_modified );
