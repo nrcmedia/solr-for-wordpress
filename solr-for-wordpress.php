@@ -367,7 +367,7 @@ function s4w_load_blog_all($blogid) {
     $bloginfo = get_blog_details($blogid, FALSE);
    
     if ($bloginfo->public && !$bloginfo->archived && !$bloginfo->spam && !$bloginfo->deleted) {
-        $postids = $wpdb->get_results("SELECT ID FROM {$wpdb->base_prefix}{$blogid}_posts WHERE post_status = 'publish';");
+        $postids = $wpdb->get_results("SELECT ID FROM {$wpdb->posts} WHERE post_status = 'publish';");
         for ($idx = 0; $idx < count($postids); $idx++) {
             $postid = $ids[$idx];
             $documents[] = s4w_build_document( get_blog_post($blogid, $postid->ID), $bloginfo->domain, $bloginfo->path );
@@ -534,7 +534,7 @@ function s4w_load_all_posts($prev, $type = 'all') {
         set_time_limit(0);
 
         // get a list of blog ids
-        $bloglist = $wpdb->get_col("SELECT * FROM {$wpdb->base_prefix}blogs WHERE spam = 0 AND deleted = 0", 0);
+        $bloglist = $wpdb->get_col("SELECT * FROM {$wpdb->blogs} WHERE spam = 0 AND deleted = 0", 0);
         syslog(LOG_ERR,"pushing posts from " . count($bloglist) . " blogs into Solr");
         foreach ($bloglist as $bloginfo) {
 
@@ -554,7 +554,7 @@ function s4w_load_all_posts($prev, $type = 'all') {
 
             // now we actually gather the blog posts
             
-            $postids = $wpdb->get_results("SELECT ID FROM {$wpdb->base_prefix}{$bloginfo}_posts WHERE post_status = 'publish' $where_and ORDER BY ID;");
+            $postids = $wpdb->get_results("SELECT ID FROM {$wpdb->posts} WHERE post_status = 'publish' $where_and ORDER BY ID;");
             $postcount = count($postids);
             syslog(LOG_ERR,"building $postcount documents for " . substr(get_bloginfo('wpurl'),7));
             for ($idx = 0; $idx < $postcount; $idx++) {
