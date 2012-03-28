@@ -173,11 +173,6 @@ function s4w_build_document( $post_info, $domain = NULL, $path = NULL) {
            
         $doc->setField( 'title', $post_info->post_title );
         $doc->setField( 'content', strip_tags($post_info->post_content) );
-        
-        $json_response = new JSON_API_Response();
-        $json_post = new JSON_API_Post_full(get_post($post_info->ID));
-        $response = (object) Array('post' =>$json_post);
-        $doc->setField( 'json', $json_response->get_json($response) );
 
         // rawcontent strips out characters lower than 0x20
         $doc->setField( 'rawcontent', strip_tags(preg_replace('/[^(\x20-\x7F)\x0A]*/','', $post_info->post_content)));
@@ -243,6 +238,12 @@ function s4w_build_document( $post_info, $domain = NULL, $path = NULL) {
     				}
         	}
         }
+        
+        // add full json respone
+        $json_response = new JSON_API_Response();
+        $json_post = new JSON_API_Post_full(get_post($post_info->ID));
+        $response = (object) Array('post' =>$json_post);
+        $doc->setField( 'json', $json_response->get_json($response) );
     } else {
         // this will fire during blog sign up on multisite, not sure why
         _e('Post Information is NULL', 'solr4wp');
