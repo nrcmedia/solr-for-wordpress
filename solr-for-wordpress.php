@@ -244,6 +244,30 @@ function s4w_build_document( $post_info, $domain = NULL, $path = NULL) {
         $json_post = new JSON_API_Post_full(get_post($post_info->ID));
         $response = (object) Array('post' =>$json_post);
         $doc->setField( 'json', $json_response->get_json($response) );
+
+        // add tone: /nieuws/beste van het web/weblog/column/
+        $tone = 'Nieuws';
+        if($blog_id > 1) {
+            $nmt_blog_type = stripslashes(get_blog_option($blog_id, 'nmt_blog_type'));
+            $nmt_blog_types = Array(
+                1=>'Weblog',
+                2=>'Column',
+                3=>'Nieuws',
+                4=>'Fotoserie',
+            );
+            $tone = $nmt_blog_types[$nmt_blog_type];
+        } else {
+            $category_slugs = Array();
+            if ( ! $categories == NULL ) {
+                foreach( $categories as $category ) {
+                    $category_slugs[] = $category->slug;
+                }
+            }
+            if(in_array('beste-van-het-web', $category_slugs))
+                $tone = 'Beste van het web';
+        }
+        $doc->setField( 'tone', $tone );
+
     } else {
         // this will fire during blog sign up on multisite, not sure why
         _e('Post Information is NULL', 'solr4wp');
