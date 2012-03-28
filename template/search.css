@@ -1,15 +1,3 @@
-#content {
-	width: auto !important;
-}
-
-*+ html clearfix {
-	display: inline-block !important;
-}
-*+ html ul,ol {
-	list-style-position: outside !important;
-}
-
-
 .solr * {
 	line-height: 1 !important;
 	padding: 0 !important;
@@ -360,20 +348,3 @@ span.solr_admin_warning {
 	width: 220px;
 }
 
-/*CLEARFIX*/
-.clearfix:after {
-	content: " ";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
-	font-size: 0;
-}
-.clearfix {
-	display: block;/*the holly hack for a bug in IE6 for Windows*/
-}
-* html .clearfix {height: 1%;}/* Hides from IE-mac \*/
-/* END CLEARFIX*/
-.clear {
-	clear: both;
-}
